@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+<link href="https://fonts.googleapis.com/css?family=Oswald:700|Roboto+Condensed:300&display=swap" rel="stylesheet">
+<style>
+  body {
+    background-color: #F1F4F4;
+  }
+  div {
+    font-family: Roboto Condensed, sans-serif;
+    font-size: 20px;
+  }
+  header {
+    font-family: Oswald, sans-serif;
+    font-size: 40px;
+  }
+  h2 {
+    font-family: Roboto Condensed, sans-serif;
+    font-weight: bold;
+  }
+</style>
+<center>
+<body>
+  <hr>
+  <header>ROUNDHILL DANCE STUDIOS: MAIDENT'S VISIT 2019</header>
+  <hr>
+  <br>
+  <h2>Ticket Information</h2>
+  <div id="ticketInfo"></div>
+  <br>
+  <br>
+  <h2>Did you sell a ticket?</h2>
+  <div>
+    If there are tickets still available, you can enter the information in the form below.
+    <br>
+    <a href="./ticketForm.html">Click here to record the purchased tickets</a>
+  </div>
+</body>
+</center>
+<script type="text/javascript">
+  function doData(json) {
+      var data = json.feed.entry;
+      console.log(data)
+      var afternoonShow = 0;
+      var eveningShow = 0;
+      for(var r=8; r<data.length;r+=5) {
+        var numberTickets = data[r]["gs$cell"]["$t"];
+        var showTime = data[r+1]["gs$cell"]["$t"];
+        if (showTime == "2") {
+          afternoonShow += numberTickets;
+        } else {
+          eveningShow += numberTickets;
+        }
+      }
+      if (afternoonShow >= 80 && eveningShow >=80) {
+        window.onload = function() { document.getElementById("ticketInfo").innerHTML = "Both shows are sold out."};
+      } else if (afternoonShow >=80) {
+        var eveningTickets = 80 - eveningShow;
+        window.onload = function() {document.getElementById("ticketInfo").innerHTML = "There are " + eveningTickets + " tickets left for the 7PM show.<br>The 2PM show is sold out."};
+      } else if (eveningShow >= 80) {
+        var afternoonTickets = 80 - afternoonShow;
+        window.onload = function() {document.getElementById("ticketInfo").innerHTML = "There are " + afternoonTickets + " tickets left for the 2PM show.<br>The 7PM show is sold out."};
+      } else {
+        var afternoonTickets = 80 - afternoonShow;
+        var eveningTickets = 80 - eveningShow;
+        window.onload = function() {document.getElementById("ticketInfo").innerHTML = "There are " + afternoonTickets + " tickets left for the 2PM show, and " + eveningTickets + " tickets left for the 7PM show."};
+      }
+  }
+</script>  
+<script src="https://spreadsheets.google.com/feeds/cells/1Kbzi4uw9qfLwoyVZF1rBjS3ojZUMNGLKiU55RLBuboQ/od6/public/values?alt=json&callback=doData"></script>
+</html> 
