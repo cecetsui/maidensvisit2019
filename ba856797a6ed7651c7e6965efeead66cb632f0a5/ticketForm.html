@@ -73,10 +73,19 @@
 	</p>
 	<br>
 	<p class="ticketNum">
-		<label for="numberOfTickets">Number of Tickets:</label>
-		<br>
 		<p id="numberOfTicketsText"></p>
-		<input name="numberOfTickets" id="numberOfTickets" type="number" required>
+		<br>
+		<label for="numberOfChildTickets">Number of Child Tickets:</label>
+		<br>
+		<input name="numberOfChildTickets" id="numberOfChildTickets" type="number" value="0" required>
+		<br>
+		<label for="numberOfAdultTickets">Number of Adult Tickets:</label>
+		<br>
+		<input name="numberOfAdultTickets" id="numberOfAdultTickets" type="number" value="0" required>
+		<br>
+		<label for="numberOfSeniorTickets">Number of Senior Tickets:</label>
+		<br>
+		<input name="numberOfSeniorTickets" id="numberOfSeniorTickets" type="number" value="0" required>
 	</p>
 	<br>
 	<p class="showSelection">
@@ -86,6 +95,11 @@
 		</select>
 	</p>
 	<br>
+	<p class="name">
+		<label for="email">Email of Will Call:</label>
+		<br>
+		<input name="email" type="text" required>
+	</p>
 	<button type="submit" id="submit">Send</button>
 </form>
 </body>
@@ -107,13 +121,15 @@
       console.log(data)
       var afternoonShow = 0;
       var eveningShow = 0;
-      for(var r=8; r<data.length;r+=5) {
-        var numberTickets = data[r]["gs$cell"]["$t"];
-        var showTime = data[r+1]["gs$cell"]["$t"];
+      for(var r=11; r<data.length;r+=8) {
+        var numberChildTickets = Number(data[r]["gs$cell"]["$t"]);
+        var numberAdultTickets = Number(data[r+1]["gs$cell"]["$t"]);
+	var numberSeniorTickets = Number(data[r+2]["gs$cell"]["$t"]);
+	var showTime = data[r+3]["gs$cell"]["$t"];
         if (showTime == "2") {
-          afternoonShow += numberTickets;
+          afternoonShow += numberChildTickets + numberAdultTickets + numberSeniorTickets;
         } else {
-          eveningShow += numberTickets;
+          eveningShow += numberChildTickets + numberAdultTickets + numberSeniorTickets;
         }
       }
       if (afternoonShow >= 80 && eveningShow >=80) {
@@ -124,23 +140,29 @@
         window.onload = function() {
         	document.getElementById("showTime").innerHTML = "<option value=\"7\">7PM</option>";
         	document.getElementById("numberOfTicketsText").innerHTML = "There are 0 tickets left for the 2PM show and " + eveningTickets + " left for the 7PM show";
-        	document.getElementById("numberOfTickets").setAttribute("max", eveningTickets);
-        };
+        	document.getElementById("numberOfChildTickets").setAttribute("max", eveningTickets);
+		document.getElementById("numberOfAdultTickets").setAttribute("max", eveningTickets);
+		document.getElementById("numberOfSeniorTickets").setAttribute("max", eveningTickets);
+	};
       } else if (eveningShow >= 80) {
         var afternoonTickets = 80 - afternoonShow;
         window.onload = function() {
         	document.getElementById("showTime").innerHTML = "<option value=\"2\">2PM</option>";
         	document.getElementById("numberOfTicketsText").innerHTML = "There are " + afternoonTickets + " left for the 2PM show and 0 tickets left for the 7PM show";
-        	document.getElementById("numberOfTickets").setAttribute("max", afternoonTickets);
-        };
+        	document.getElementById("numberOfChildTickets").setAttribute("max", afternoonTickets);
+        	document.getElementById("numberOfAdultTickets").setAttribute("max", eveningTickets);
+		document.getElementById("numberOfSeniorTickets").setAttribute("max", eveningTickets);
+	};
       } else {
         var afternoonTickets = 80 - afternoonShow;
         var eveningTickets = 80 - eveningShow;
         window.onload = function() {
         	document.getElementById("showTime").innerHTML = "<option value=\"2\">2PM</option><option value=\"7\">7PM</option>";
         	document.getElementById("numberOfTicketsText").innerHTML = "There are " + afternoonTickets + " left for the 2PM show and " + eveningTickets + " left for the 7PM show";
-        	document.getElementById("numberOfTickets").setAttribute("max", Math.max(afternoonTickets, eveningTickets));
-        };
+        	document.getElementById("numberOfChildTickets").setAttribute("max", Math.max(afternoonTickets, eveningTickets));
+		document.getElementById("numberOfAdultTickets").setAttribute("max", Math.max(afternoonTickets, eveningTickets));
+        	document.getElementById("numberOfSeniorTickets").setAttribute("max", Math.max(afternoonTickets, eveningTickets));
+	};
       }
   }
 </script>

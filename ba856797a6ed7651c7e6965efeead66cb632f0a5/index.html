@@ -42,13 +42,15 @@
       console.log(data)
       var afternoonShow = 0;
       var eveningShow = 0;
-      for(var r=8; r<data.length;r+=5) {
-        var numberTickets = data[r]["gs$cell"]["$t"];
-        var showTime = data[r+1]["gs$cell"]["$t"];
+      for(var r=11; r<data.length;r+=8) {
+        var numberChildTickets = Number(data[r]["gs$cell"]["$t"]);
+        var numberAdultTickets = Number(data[r+1]["gs$cell"]["$t"]);
+	var numberSeniorTickets = Number(data[r+2]["gs$cell"]["$t"]);
+	var showTime = data[r+3]["gs$cell"]["$t"];
         if (showTime == "2") {
-          afternoonShow += numberTickets;
+          afternoonShow += numberChildTickets + numberAdultTickets + numberSeniorTickets;
         } else {
-          eveningShow += numberTickets;
+          eveningShow += numberChildTickets + numberAdultTickets + numberSeniorTickets;
         }
       }
       if (afternoonShow >= 80 && eveningShow >=80) {
