@@ -75,17 +75,13 @@
 	<p class="ticketNum">
 		<p id="numberOfTicketsText"></p>
 		<br>
-		<label for="numberOfChildTickets">Number of Child Tickets:</label>
+		<label for="numberOfChildStudentSeniorTickets">Number of Child/Student/Senior Tickets ($12):</label>
 		<br>
-		<input name="numberOfChildTickets" id="numberOfChildTickets" type="number" value="0" required>
+		<input name="numberOfChildStudentSeniorTickets" id="numberOfChildStudentSeniorTickets" type="number" value="0" required>
 		<br>
-		<label for="numberOfAdultTickets">Number of Adult Tickets:</label>
+		<label for="numberOfAdultTickets">Number of Adult Tickets ($15):</label>
 		<br>
 		<input name="numberOfAdultTickets" id="numberOfAdultTickets" type="number" value="0" required>
-		<br>
-		<label for="numberOfSeniorTickets">Number of Senior Tickets:</label>
-		<br>
-		<input name="numberOfSeniorTickets" id="numberOfSeniorTickets" type="number" value="0" required>
 	</p>
 	<br>
 	<p class="showSelection">
@@ -121,15 +117,14 @@
       console.log(data)
       var afternoonShow = 0;
       var eveningShow = 0;
-      for(var r=11; r<data.length;r+=8) {
-        var numberChildTickets = Number(data[r]["gs$cell"]["$t"]);
+      for(var r=10; r<data.length;r+=7) {
+        var numberChildStudentSeniorTickets = Number(data[r]["gs$cell"]["$t"]);
         var numberAdultTickets = Number(data[r+1]["gs$cell"]["$t"]);
-	var numberSeniorTickets = Number(data[r+2]["gs$cell"]["$t"]);
-	var showTime = data[r+3]["gs$cell"]["$t"];
+	var showTime = data[r+2]["gs$cell"]["$t"];
         if (showTime == "2") {
-          afternoonShow += numberChildTickets + numberAdultTickets + numberSeniorTickets;
+          afternoonShow += numberChildStudentSeniorTickets + numberAdultTickets;
         } else {
-          eveningShow += numberChildTickets + numberAdultTickets + numberSeniorTickets;
+          eveningShow += numberChildStudentSeniorTickets + numberAdultTickets;
         }
       }
       if (afternoonShow >= 80 && eveningShow >=80) {
@@ -140,18 +135,16 @@
         window.onload = function() {
         	document.getElementById("showTime").innerHTML = "<option value=\"7\">7PM</option>";
         	document.getElementById("numberOfTicketsText").innerHTML = "There are 0 tickets left for the 2PM show and " + eveningTickets + " left for the 7PM show";
-        	document.getElementById("numberOfChildTickets").setAttribute("max", eveningTickets);
+        	document.getElementById("numberOfChildStudentSeniorTickets").setAttribute("max", eveningTickets);
 		document.getElementById("numberOfAdultTickets").setAttribute("max", eveningTickets);
-		document.getElementById("numberOfSeniorTickets").setAttribute("max", eveningTickets);
 	};
       } else if (eveningShow >= 80) {
         var afternoonTickets = 80 - afternoonShow;
         window.onload = function() {
         	document.getElementById("showTime").innerHTML = "<option value=\"2\">2PM</option>";
         	document.getElementById("numberOfTicketsText").innerHTML = "There are " + afternoonTickets + " left for the 2PM show and 0 tickets left for the 7PM show";
-        	document.getElementById("numberOfChildTickets").setAttribute("max", afternoonTickets);
+        	document.getElementById("numberOfChildStudentSeniorTickets").setAttribute("max", afternoonTickets);
         	document.getElementById("numberOfAdultTickets").setAttribute("max", eveningTickets);
-		document.getElementById("numberOfSeniorTickets").setAttribute("max", eveningTickets);
 	};
       } else {
         var afternoonTickets = 80 - afternoonShow;
@@ -159,9 +152,8 @@
         window.onload = function() {
         	document.getElementById("showTime").innerHTML = "<option value=\"2\">2PM</option><option value=\"7\">7PM</option>";
         	document.getElementById("numberOfTicketsText").innerHTML = "There are " + afternoonTickets + " left for the 2PM show and " + eveningTickets + " left for the 7PM show";
-        	document.getElementById("numberOfChildTickets").setAttribute("max", Math.max(afternoonTickets, eveningTickets));
+        	document.getElementById("numberOfChildStudentSeniorTickets").setAttribute("max", Math.max(afternoonTickets, eveningTickets));
 		document.getElementById("numberOfAdultTickets").setAttribute("max", Math.max(afternoonTickets, eveningTickets));
-        	document.getElementById("numberOfSeniorTickets").setAttribute("max", Math.max(afternoonTickets, eveningTickets));
 	};
       }
   }
