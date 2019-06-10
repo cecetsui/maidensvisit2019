@@ -114,10 +114,9 @@
 
   function doData(json) {
       var data = json.feed.entry;
-      console.log(data)
       var afternoonShow = 0;
       var eveningShow = 0;
-      for(var r=10; r<data.length;r+=7) {
+      for(var r=0; r<data.length;r+=3) {
         var numberChildStudentSeniorTickets = Number(data[r]["gs$cell"]["$t"]);
         var numberAdultTickets = Number(data[r+1]["gs$cell"]["$t"]);
 	var showTime = data[r+2]["gs$cell"]["$t"];
@@ -158,6 +157,6 @@
       }
   }
 </script>
-<script src="https://spreadsheets.google.com/feeds/cells/1Kbzi4uw9qfLwoyVZF1rBjS3ojZUMNGLKiU55RLBuboQ/od6/public/values?alt=json&callback=doData"></script>
+<script src="https://spreadsheets.google.com/feeds/cells/1Kbzi4uw9qfLwoyVZF1rBjS3ojZUMNGLKiU55RLBuboQ/od6/public/values?min-col=4&max-col=6&min-row=2&alt=json&callback=doData"></script>
 </html>
 

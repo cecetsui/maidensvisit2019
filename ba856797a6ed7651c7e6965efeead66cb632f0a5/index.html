@@ -21,7 +21,7 @@
 <center>
 <body>
   <hr>
-  <header>ROUNDHILL DANCE STUDIOS: MAIDENT'S VISIT 2019</header>
+  <header>ROUNDHILL DANCE STUDIOS: MAIDEN'S VISIT 2019</header>
   <hr>
   <br>
   <h2>Ticket Information</h2>
@@ -39,10 +39,9 @@
 <script type="text/javascript">
   function doData(json) {
       var data = json.feed.entry;
-      console.log(data)
       var afternoonShow = 0;
       var eveningShow = 0;
-      for(var r=10; r<data.length;r+=7) {
+      for(var r=0; r<data.length;r+=3) {
         var numberChildStudentSeniorTickets = Number(data[r]["gs$cell"]["$t"]);
         var numberAdultTickets = Number(data[r+1]["gs$cell"]["$t"]);
 	var showTime = data[r+2]["gs$cell"]["$t"];
@@ -63,9 +62,9 @@
       } else {
         var afternoonTickets = 80 - afternoonShow;
         var eveningTickets = 80 - eveningShow;
-        window.onload = function() {document.getElementById("ticketInfo").innerHTML = "There are " + afternoonTickets + " tickets left for the 2PM show, and " + eveningTickets + " tickets left for the 7PM show."};
+	window.onload = function() {document.getElementById("ticketInfo").innerHTML = "There are " + afternoonTickets + " tickets left for the 2PM show, and " + eveningTickets + " tickets left for the 7PM show."};
       }
   }
 </script>  
-<script src="https://spreadsheets.google.com/feeds/cells/1Kbzi4uw9qfLwoyVZF1rBjS3ojZUMNGLKiU55RLBuboQ/od6/public/values?alt=json&callback=doData"></script>
+<script src="https://spreadsheets.google.com/feeds/cells/1Kbzi4uw9qfLwoyVZF1rBjS3ojZUMNGLKiU55RLBuboQ/od6/public/values?min-col=4&max-col=6&min-row=2&alt=json&callback=doData"></script>
 </html> 
